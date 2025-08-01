@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@layer components{
+    #home{
+        background: url("images/istockphoto-2017192073-612x612.webp");
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: multiply;
+        
+        background-repeat: no-repeat;
+
+        
+        
+    }
+    header .active{
+        color: white;
+        border-bottom: 2px solid white;
+    }
+   
+
+}
