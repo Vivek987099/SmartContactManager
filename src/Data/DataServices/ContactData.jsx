@@ -1,9 +1,15 @@
 import axios from "axios";
 
-let api=axios.create({
-    baseURL:"http://localhost:8080/contact",
-})
+let api = axios.create({
+  baseURL: "http://localhost:8080/contact",
+});
 
-export let getContacts=(id,header)=>{
-    return api.get(`/contacts/${id}?`,{headers:header})
-}
+export let getContacts = (id, header, page , pageSize ) => {
+  return api.get(`/contacts/${id}?`, {
+    headers: header,
+    params: {
+      page,
+      size: pageSize,
+    },
+  });
+};

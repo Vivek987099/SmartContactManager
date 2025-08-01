@@ -8,6 +8,7 @@ import Pagination from './Pagination';
 import { GlobalContext } from "../Context/GlobleContext";
 
 function ViewContact() {
+
   let [contactData, setContactData] = useState([]);
   let [toggle, setToggle] = useState(false);
   let [currentContact,setCurrentContact]=useState()
@@ -16,12 +17,15 @@ function ViewContact() {
   let header = {
     Authorization: `Bearer ${token}`,
   };
-  let {setTotalPages,setCurrentPage}=useContext(GlobalContext);
-  let getContactData = async () => {
-    let res = await getContacts(decodedToken.id, header);
+  let {setTotalPages,setCurrentPage,currentPage}=useContext(GlobalContext);
+  let getContactData = async (page) => {
+    console.log(currentPage,"this current page");
+    
+    
+    let res = await getContacts(decodedToken.id, header,page,10);
     setContactData(res.data.contacts);
     setTotalPages(res.data.totalPage)
-    setCurrentPage(res.data.currentPage+1)
+    setCurrentPage(res.data.currentPage)
     console.log(contactData);
     
   };
@@ -29,7 +33,7 @@ function ViewContact() {
   useEffect(() => {
     getContactData();
   }, []);
-    const size=8;
+    
 
   return (
     <>
@@ -67,7 +71,7 @@ function ViewContact() {
           </tbody>
           <tbody></tbody>
         </table>
-        <Pagination></Pagination>
+        <Pagination getContactData={getContactData}></Pagination>
         <div>{toggle ? <ContactCard setToggle={setToggle} currentContact={currentContact}></ContactCard> : null}</div>
       </div>
     </>
