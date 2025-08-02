@@ -17,30 +17,32 @@ function ViewContact() {
   let header = {
     Authorization: `Bearer ${token}`,
   };
-  let {setTotalPages,setCurrentPage,currentPage}=useContext(GlobalContext);
+  let {setTotalPages,setCurrentPage}=useContext(GlobalContext);
   let getContactData = async (page) => {
-    console.log(currentPage,"this current page");
     
     
     let res = await getContacts(decodedToken.id, header,page,10);
     setContactData(res.data.contacts);
     setTotalPages(res.data.totalPage)
     setCurrentPage(res.data.currentPage)
-    console.log(contactData);
     
   };
   
   useEffect(() => {
     getContactData();
+   
   }, []);
     
-
+   const removeContactFromList = (id) => {
+    setContactData((prev) => prev.filter((c) => c.cId !== id));
+  };
   return (
     <>
       <div className="w-full relative h-full">
         <table className=" w-[80%] mx-auto  mt-10 overflow-hidden">
           <tbody>
-            {contactData.map((contact, id) => (
+            {
+              contactData.length > 0 ? contactData.map((contact, id) => (
               <tr
                 onClick={()=>{setToggle(true);setCurrentContact(contact)}}
 
@@ -67,12 +69,13 @@ function ViewContact() {
                   {contact.phone}
                 </td>
               </tr>
-            ))}
+            )):<div className=" text-center w-full text-gray-500 py-5 flex justify-center "><h1 className="text-3xl">there no contacts</h1></div>
+            }
           </tbody>
           <tbody></tbody>
         </table>
         <Pagination getContactData={getContactData}></Pagination>
-        <div>{toggle ? <ContactCard setToggle={setToggle} currentContact={currentContact}></ContactCard> : null}</div>
+        <div>{toggle ? <ContactCard onDeleted={removeContactFromList} setToggle={setToggle} currentContact={currentContact}></ContactCard> : null}</div>
       </div>
     </>
   );

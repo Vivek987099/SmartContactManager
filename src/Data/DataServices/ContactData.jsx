@@ -13,3 +13,8 @@ export let getContacts = (id, header, page , pageSize ) => {
     },
   });
 };
+
+export let deleteCotact=(id,header)=>{
+  return api.delete(`/contacts/${id}`, {headers: header});
+}
+

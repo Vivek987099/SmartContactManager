@@ -20,7 +20,7 @@ function Pagination({getContactData}) {
   return (
     <>
    
-      <div className="flex items-center gap-x-5 justify-center mt-20">
+      <div className="flex items-center gap-x-5 justify-center mt-20 fixed bottom-5 left-[52%]">
         <button
          onClick={()=>{handlePageChange(currentPage-1)}}
           disabled={currentPage <= 0}
